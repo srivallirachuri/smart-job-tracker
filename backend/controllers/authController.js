@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
         }
 
         res.status(201).json({ message: "User registered successfully" });
-      }
+      },
     );
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -30,7 +30,7 @@ const generateAccessToken = (user) => {
   return jwt.sign(
     { id: user.id, email: user.email },
     process.env.JWT_SECRET,
-    { expiresIn: "15m" } // SHORT LIVED
+    { expiresIn: "7d" }, // SHORT LIVED
   );
 };
 
@@ -38,7 +38,7 @@ const generateRefreshToken = (user) => {
   return jwt.sign(
     { id: user.id },
     process.env.JWT_SECRET,
-    { expiresIn: "7d" } // LONG LIVED
+    { expiresIn: "7d" }, // LONG LIVED
   );
 };
 
@@ -86,9 +86,9 @@ exports.login = (req, res) => {
           });
 
           res.json({ accessToken });
-        }
+        },
       );
-    }
+    },
   );
 };
 
@@ -118,11 +118,11 @@ exports.refresh = (req, res) => {
         const newAccessToken = jwt.sign(
           { id: decoded.id },
           process.env.JWT_SECRET,
-          { expiresIn: "15m" }
+          { expiresIn: "7d" },
         );
 
         res.json({ accessToken: newAccessToken });
-      }
+      },
     );
   } catch (err) {
     return res.status(403).json({ message: "Expired refresh token" });

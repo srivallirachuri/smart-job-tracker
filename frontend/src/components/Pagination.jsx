@@ -1,24 +1,40 @@
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
 function Pagination({ page, totalPages, setPage }) {
+  if (totalPages <= 1) return null;
+
   return (
-    <div className="flex justify-center items-center gap-4 mt-8">
+    <div className="flex justify-center items-center gap-4 mt-10">
       <button
         disabled={page === 1}
         onClick={() => setPage(page - 1)}
-        className="border px-4 py-2 rounded-lg disabled:opacity-50 bg-white"
+        className={`flex items-center gap-2 px-5 py-3 rounded-xl transition
+          ${
+            page === 1
+              ? "bg-gray-200 cursor-not-allowed"
+              : "bg-white hover:bg-black hover:text-white shadow"
+          }`}
       >
+        <FaChevronLeft />
         Previous
       </button>
 
-      <span className="font-medium">
+      <div className="bg-black text-white px-6 py-3 rounded-xl font-semibold shadow">
         Page {page} of {totalPages}
-      </span>
+      </div>
 
       <button
-        disabled={page === totalPages || totalPages === 0}
+        disabled={page === totalPages}
         onClick={() => setPage(page + 1)}
-        className="border px-4 py-2 rounded-lg disabled:opacity-50 bg-white"
+        className={`flex items-center gap-2 px-5 py-3 rounded-xl transition
+          ${
+            page === totalPages
+              ? "bg-gray-200 cursor-not-allowed"
+              : "bg-white hover:bg-black hover:text-white shadow"
+          }`}
       >
         Next
+        <FaChevronRight />
       </button>
     </div>
   );
